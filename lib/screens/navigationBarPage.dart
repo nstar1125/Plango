@@ -35,7 +35,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
           });
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "홈"),
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.house_fill), label: "홈"),
           BottomNavigationBarItem(icon: Icon(CupertinoIcons.pen), label: "일정 작성"),
           BottomNavigationBarItem(icon: Icon(CupertinoIcons.list_bullet), label: "나의 일정"),
           BottomNavigationBarItem(icon: Icon(CupertinoIcons.search), label: "일정 검색"),
