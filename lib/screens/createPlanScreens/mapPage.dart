@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:google_maps_webservice/places.dart';
-import 'package:google_api_headers/google_api_headers.dart';
+import 'package:geolocator/geolocator.dart';
 
 const kGoogleApiKey = "AIzaSyA_vu6zRJghC1YDnXof22ROP5r85mwtK4c";
 
@@ -17,14 +15,20 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   // related google map
-  static const CameraPosition _initialCameraPosition = CameraPosition(target: LatLng(37.5052, 126.9571), zoom: 14.0);
+  Position? myPosition;
   final Set<Marker> _marker = {};
   late GoogleMapController _controller;
 
-  // related google place
-  final Mode _mode = Mode.overlay;
-  late PlacesDetailsResponse detail;
 
+  _getCurrentLocation() async{
+    myPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+    setState(() {});
+  }
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +38,15 @@ class _MapPageState extends State<MapPage> {
       resizeToAvoidBottomInset : false,
       body: Stack(
         children: [
-          GoogleMap(
-            initialCameraPosition: _initialCameraPosition,
+          (myPosition != null)
+              ?GoogleMap(
+            initialCameraPosition: CameraPosition(target: LatLng(myPosition!.latitude, myPosition!.longitude), zoom: 14.0),
             markers: _marker,
             onMapCreated: (GoogleMapController controller) {
               _controller = controller;
             },
-          ),
+          )
+              :Center(child: CircularProgressIndicator(),),
         ],
       )
     );
