@@ -77,11 +77,15 @@ class _MapPageState extends State<MapPage> {
               children: [
                 ElevatedButton(
                     child: Text("경로 추천"),
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.pushNamed(context, "/toPreferencePage");
+                    },
                 ),
                 ElevatedButton(
                   child: Text("경로 검색"),
-                  onPressed: (){},
+                  onPressed: (){
+
+                  },
                 )
               ],
             ),

@@ -1,12 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:plango/screens/createPlanScreens/preferencePage.dart';
 import 'package:plango/screens/loginScreens/initialPage.dart';
 import 'package:plango/screens/loginScreens/makeUserPage.dart';
 import 'package:plango/screens/loginScreens/signInPage.dart';
 import 'package:plango/screens/loginScreens/signUpPage.dart';
 import 'package:plango/screens/loginScreens/splashPage.dart';
-import 'package:plango/screens/navigationBarPage.dart';
+import 'package:plango/screens/homeScreens/navigationBarPage.dart';
 import 'package:plango/utilities/firebase_options.dart';
 
 void main() async{
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/toSignUpPage': (context) => const SignUpPage(), //계정생성 페이지 이동
         '/toMakeUserPage': (context) => const MakeUserPage(), //유저 정보 작성 페이지 이동
         '/toNavigationBarPage': (context) => const NavigationBarPage(), //네비게이션 바 페이지 이동
+        '/toPreferencePage': (context) => const PreferencePage(), //여행 스타일 설정 페이지 이동
 
       }
     );
