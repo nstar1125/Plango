@@ -4,6 +4,9 @@
         android:label="plango"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+       <meta-data
+           android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyA_vu6zRJghC1YDnXof22ROP5r85mwtK4c" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
