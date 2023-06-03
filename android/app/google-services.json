@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "341403028514",
+    "project_id": "plango-61e59",
+    "storage_bucket": "plango-61e59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341403028514:android:83f7a8117cb153b0970e7b",
+        "android_client_info": {
+          "package_name": "com.example.plango"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "341403028514-6tqk56fpmtnn49fcb1lpchm8unlaadks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_vu6zRJghC1YDnXof22ROP5r85mwtK4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "341403028514-6tqk56fpmtnn49fcb1lpchm8unlaadks.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
