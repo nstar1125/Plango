@@ -9,6 +9,7 @@ import 'package:plango/screens/loginScreens/signUpPage.dart';
 import 'package:plango/screens/loginScreens/splashPage.dart';
 import 'package:plango/screens/homeScreens/navigationBarPage.dart';
 import 'package:plango/utilities/firebase_options.dart';
+import 'package:plango/utilities/getAPI.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         '/toMakeUserPage': (context) => const MakeUserPage(), //유저 정보 작성 페이지 이동
         '/toNavigationBarPage': (context) => const NavigationBarPage(), //네비게이션 바 페이지 이동
         '/toPreferencePage': (context) => const PreferencePage(), //여행 스타일 설정 페이지 이동
+        '/toGetAPIPage' : (context) => const GetAPI(),
 
       }
     );

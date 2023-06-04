@@ -74,7 +74,12 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Center(
-        child: Text("home"),
+        child: ElevatedButton(
+          child: Text("go to getapi"),
+          onPressed: () {
+            Navigator.pushNamed(context, '/toGetAPIPage');
+          },
+        ),
       ),
     );
   }

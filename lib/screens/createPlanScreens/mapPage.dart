@@ -132,6 +132,8 @@ class _MapPageState extends State<MapPage> {
 
     final lat = detail.result.geometry!.location.lat;
     final lng = detail.result.geometry!.location.lng;
+    print(lat);
+    print(lng);
 
     _marker.clear();
     _marker.add(Marker(markerId: const MarkerId("0"), position: LatLng(lat, lng), infoWindow: InfoWindow(title: detail.result.name)));
