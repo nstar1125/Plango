@@ -18,19 +18,39 @@ class _GetAPIState extends State<GetAPI> {
     final db = FirebaseFirestore.instance;
     var url = 'https://apis.data.go.kr/B551011/KorWithService1/locationBasedList1?serviceKey=XN%2FesQfM49MU%2BbA5FbqGMUOT1CZfBskUfNYPs5G5Tr789RNHU7fAnq5OlwSz5AMwKvs5llHw45EY4whO5Fzxrw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&listYN=Y&arrange=A&mapX=126.9330781&mapY=37.5284304&radius=1000&_type=json';
     var response = await http.get(Uri.parse(url));
-    var myJsonList;
+    var myJsonList, myJsonList2;
 
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(utf8.decode(response.bodyBytes));
       myJsonList = jsonData["response"]["body"]["items"]["item"];
 
       for (int i = 0; i < myJsonList.length; i++) {
+        String contentId = await myJsonList[i]['contentid'];
+        var response2 = await http.get(Uri.parse("https://apis.data.go.kr/B551011/KorWithService1/detailWithTour1?serviceKey=XN%2FesQfM49MU%2BbA5FbqGMUOT1CZfBskUfNYPs5G5Tr789RNHU7fAnq5OlwSz5AMwKvs5llHw45EY4whO5Fzxrw%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&contentId=$contentId&_type=json"));
+
+        var jsonData2 = jsonDecode(utf8.decode(response2.bodyBytes));
+        myJsonList2 = jsonData2["response"]["body"]["items"]["item"][0];
+
         await db.collection('places').add({
           'title': myJsonList[i]['title'],
           'location': myJsonList[i]['addr1'],
           'lat': double.parse(myJsonList[i]['mapy']),
           'lng': double.parse(myJsonList[i]['mapx']),
           'like': rand(11).toDouble(),
+
+          'parking': myJsonList2['parking'],
+          'publictransport': myJsonList2['publictransport'],
+          'wheelchair': myJsonList2['wheelchair'],
+          'exit': myJsonList2['exit'],
+          'elevator': myJsonList2['elevator'],
+          'restroom': myJsonList2['restroom'],
+          'auditorium': myJsonList2['auditorium'],
+          'handicapetc': myJsonList2['handicapetc'],
+          'braileblock': myJsonList2['braileblock'],
+          'guidehuman': myJsonList2['guidehuman'],
+          'helpdog': myJsonList2['helpdog'],
+          'brailepromotion': myJsonList2['brailepromotion'],
+
         }).then((documentSnapshot) async => await db.collection('places').doc(documentSnapshot.id).update({"placeId": documentSnapshot.id}));
       }
     } else {
