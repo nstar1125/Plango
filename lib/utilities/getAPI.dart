@@ -33,13 +33,6 @@ class _GetAPIState extends State<GetAPI> {
           'like': rand(11).toDouble(),
         }).then((documentSnapshot) async => await db.collection('places').doc(documentSnapshot.id).update({"placeId": documentSnapshot.id}));
       }
-
-
-
-
-
-
-
     } else {
       //만약 응답이 ok가 아니면 에러를 던집니다.
       throw Exception('불러오는데 실패했습니다');

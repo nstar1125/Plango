@@ -47,6 +47,8 @@ dependencies:
   flutter_google_places: ^0.3.0
   google_maps_webservice: ^0.0.19
   google_api_headers: ^1.5.0
+  flutter_datetime_picker: ^1.5.1
+  like_button: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +78,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
