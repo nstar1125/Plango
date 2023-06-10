@@ -9,7 +9,6 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_webservice/directions.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'dart:io' show Platform;
 import 'package:plango/utilities/event.dart';
@@ -38,6 +37,7 @@ class _MapPageState extends State<MapPage> {
   Set<Marker> markers = {};
   static int markerId = 1;
   late GoogleMapController _controller;
+  Set<Polyline> polyline = {};
   List<LatLng> points = [];
 
   // related google place
@@ -154,6 +154,7 @@ class _MapPageState extends State<MapPage> {
               ?GoogleMap(
             initialCameraPosition: CameraPosition(target: LatLng(myPosition!.latitude, myPosition!.longitude), zoom: 14.0),
             markers: markers,
+            polylines: polyline,
             onMapCreated: (GoogleMapController controller) {
               _controller = controller;
             },
@@ -386,6 +387,15 @@ class _MapPageState extends State<MapPage> {
                                             events.add(myEvent);
 
                                             points.add(LatLng(myEvent.getLat(), myEvent.getLng()));
+                                            polyline.add(Polyline(
+                                              patterns: [
+                                                PatternItem.dash(50),
+                                                PatternItem.gap(50),
+                                              ],
+                                              polylineId: const PolylineId('0'),
+                                              points: points,
+                                              color: Colors.lightBlueAccent,
+                                            ));
 
                                             //set state 포함
                                             addMarker(LatLng(myEvent.getLat(), myEvent.getLng()));

@@ -37,19 +37,30 @@ class _GetAPIState extends State<GetAPI> {
           'lat': double.parse(myJsonList[i]['mapy']),
           'lng': double.parse(myJsonList[i]['mapx']),
           'like': rand(11).toDouble(),
+          'image': myJsonList[i]['firstimage'],
+          'category': int.parse(myJsonList[i]['contenttypeid']),
 
+          // 공통
           'parking': myJsonList2['parking'],
           'publictransport': myJsonList2['publictransport'],
-          'wheelchair': myJsonList2['wheelchair'],
-          'exit': myJsonList2['exit'],
           'elevator': myJsonList2['elevator'],
           'restroom': myJsonList2['restroom'],
-          'auditorium': myJsonList2['auditorium'],
-          'handicapetc': myJsonList2['handicapetc'],
-          'braileblock': myJsonList2['braileblock'],
           'guidehuman': myJsonList2['guidehuman'],
+          'handicapetc': myJsonList2['handicapetc'],
+
+          // 신체
+          'wheelchair': myJsonList2['wheelchair'],
+          'auditorium': myJsonList2['auditorium'],
+          'exit': myJsonList2['exit'],
+
+          // 시각
+          'braileblock': myJsonList2['braileblock'],
           'helpdog': myJsonList2['helpdog'],
+          'audioguide': myJsonList2['audioguide'],
           'brailepromotion': myJsonList2['brailepromotion'],
+
+          // 청각
+          'hearingroom': myJsonList2['hearingroom'],
 
         }).then((documentSnapshot) async => await db.collection('places').doc(documentSnapshot.id).update({"placeId": documentSnapshot.id}));
       }

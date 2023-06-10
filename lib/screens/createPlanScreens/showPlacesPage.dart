@@ -63,8 +63,10 @@ class _ShowPlacesPageState extends State<ShowPlacesPage> {
                 //조건: 거리1km내
                 if((distanceInMeters < 1000)) {
                   return GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+
                       selectedEvent = Event.fromJson(documentSnapshot.data() as Map<String, dynamic>);
+                      await selectedEvent.getImage();
                       if (!positions.contains(LatLng(documentSnapshot['lat'], documentSnapshot['lng']))) {
                         //클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감
                         //then은 두 번 pop하기 위한 장치

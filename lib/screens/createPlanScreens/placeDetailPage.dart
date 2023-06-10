@@ -54,7 +54,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
             )
           ],
           title: Text(
-            "Event",
+            "Place",
             style: TextStyle(
                 color: Colors.black87,
                 fontFamily: "GmarketSansTTF",
@@ -146,6 +146,33 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
                   ]),
               SizedBox(height: 10),
 
+              Row(
+                //위치
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    Icon(Icons.location_on),
+                    // ignore: prefer_const_constructors
+                    Text(" Information",
+                        // ignore: prefer_const_constructors
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: "GmarketSansTTF",
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold))
+                  ]),
+              SizedBox(height: 10),
+              Padding(
+                //위치 정보
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Text(e.getInfo()!,
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: "GmarketSansTTF",
+                      fontSize: 14,
+                    )),
+              ),
+
               SizedBox(height: 30),
               Row(
                 //유형
@@ -160,7 +187,16 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
                             fontWeight: FontWeight.bold))
                   ]),
               SizedBox(height: 10),
-
+              Padding(
+                //위치 정보
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Text(e.getCategory()!,
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: "GmarketSansTTF",
+                      fontSize: 14,
+                    )),
+              ),
 
 
               SizedBox(height: 30),
@@ -176,6 +212,20 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
                             fontSize: 16,
                             fontWeight: FontWeight.bold))
                   ]),
+              SizedBox(height: 10),
+              Padding(
+                //위치 정보
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Container(
+                  margin: const EdgeInsets.all(15.0),
+                  child: Hero(
+                    tag: 'imagetag1',
+                    child: e.getImageData() != null ? Image.memory(
+                      e.getImageData()!
+                    ) : Container(child: Center(child: Text("No Image"),),),
+                  )
+                ),
+              ),
 
               SizedBox(height: 30),
               Row(
