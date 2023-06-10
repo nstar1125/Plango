@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:plango/screens/createPlanScreens/placeDetailPage.dart';
+import 'package:plango/screens/createPlanScreens/planDetailPage.dart';
 import 'package:plango/screens/createPlanScreens/preferencePage.dart';
 import 'package:plango/screens/createPlanScreens/showPlacesPage.dart';
 import 'package:plango/screens/loginScreens/initialPage.dart';
@@ -10,6 +11,7 @@ import 'package:plango/screens/loginScreens/signInPage.dart';
 import 'package:plango/screens/loginScreens/signUpPage.dart';
 import 'package:plango/screens/loginScreens/splashPage.dart';
 import 'package:plango/screens/homeScreens/navigationBarPage.dart';
+import 'package:plango/screens/myPlanScreens/planCheckPage.dart';
 import 'package:plango/utilities/firebase_options.dart';
 import 'package:plango/utilities/getAPI.dart';
 
@@ -47,7 +49,8 @@ class MyApp extends StatelessWidget {
         '/toGetAPIPage' : (context) => const GetAPI(),
         '/toShowPlacesPage' : (context) => const ShowPlacesPage(),
         '/toPlaceDetailPage' : (context) => const PlaceDetailPage(),
-
+        '/toPlanDetailPage' : (context) => const PlanDetailPage(),
+        '/toPlanCheckPage' : (context) => const PlanCheckPage(),
       }
     );
   }

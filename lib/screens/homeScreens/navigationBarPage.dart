@@ -6,7 +6,12 @@ import 'package:plango/screens/myPlanScreens/myPlanListPage.dart';
 import 'package:plango/screens/searchPlanScreens/searchPlanPage.dart';
 
 class NavigationBarPage extends StatefulWidget {
-  const NavigationBarPage({Key? key}) : super(key: key);
+  final int? index;
+
+  const NavigationBarPage({
+    super.key,
+    this.index,
+  });
 
   @override
   State<NavigationBarPage> createState() => _NavigationBarPageState();
@@ -23,6 +28,13 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
     const SearchPlanPage(),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    if(widget.index!=null){
+      _selectedIndex = widget.index!;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

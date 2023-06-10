@@ -82,22 +82,6 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
                   },
                 ),
               ),
-              Row(                                                  //제목
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(Icons.person),
-                    Text(" Profile",
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontFamily: "GmarketSansTTF",
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold
-                        )
-                    ),
-                  ]
-              ),
-
-              SizedBox(height:30),
               Row(
                 //제목
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -212,7 +196,7 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
               Center(
                   child: ElevatedButton(
                     child: Text(
-                      "Add To My Tour",
+                      "일정 추가",
                       style: TextStyle(
                         fontFamily: "GmarketSansTTF",
                       ),
@@ -220,9 +204,6 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
                     onPressed: () {
                       Navigator.of(context).pop(e);
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightBlueAccent,
-                    )
                   )
               )
             ],
