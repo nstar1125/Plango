@@ -55,8 +55,7 @@ class _SignInPageState extends State<SignInPage> {
       },
       child: Scaffold(
         appBar: AppBar( // 앱 상단 바
-          title: const Text("이메일 로그인"),
-          centerTitle: true,
+          title: Text("이메일 로그인"),
         ),
         body: Center(
           child: Padding(
@@ -107,35 +106,42 @@ class _SignInPageState extends State<SignInPage> {
                     keyboardType: TextInputType.text,
                   ),
                   const SizedBox(height: 40),
-                  CupertinoButton( //로그인 버튼
-                    child: Text("로그인"),
-                    onPressed: () async{
-                      FocusScope.of(context).unfocus();
-                      if(_tryValidation()){ //로그인 형식 확인
-                        try{
-                          if(FirebaseAuth.instance.currentUser == null){
-                            debugPrint("null");
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(30)
+                    ),
+                    width: 150,
+                    child: CupertinoButton( //로그인 버튼
+                      child: Text("로그인", style: Theme.of(context).textTheme.button),
+                      onPressed: () async{
+                        FocusScope.of(context).unfocus();
+                        if(_tryValidation()){ //로그인 형식 확인
+                          try{
+                            if(FirebaseAuth.instance.currentUser == null){
+                              debugPrint("null");
+                            }
+                            final newUser =
+                            await _authentication.signInWithEmailAndPassword(
+                                email: _userEmail, password: _userPassword); //파이어베이스 계정 확인
+                            QuerySnapshot snapshot = await FirebaseService(
+                                uid: FirebaseAuth.instance.currentUser!.uid)
+                                .getUserData(_userEmail); //유저 데이터 이메일로 받이오기
+                            if(newUser.user != null){
+                              await StorageService().saveUserLoggedInStatus("true"); //스토리지에 로그인 정보 저장
+                              await StorageService().saveUserName(snapshot.docs[0]['fullName']); //스토리지에 닉네임 저장
+                              await StorageService().saveUserEmail(_userEmail); //스토리지에 이메일 저장
+                              await StorageService().saveUserPwd(_userPassword);
+                              await StorageService().saveUserID(snapshot.docs[0]['id']); //스토리지에 파이어베이스 id 저장
+                              Navigator.pushNamedAndRemoveUntil(context, '/toNavigationBarPage', (route) => false); //로그인
+                            }
+                          }catch(e){ //에러 메시지
+                            debugPrint("$e");
+                            _showLoginAlert();
                           }
-                          final newUser =
-                          await _authentication.signInWithEmailAndPassword(
-                              email: _userEmail, password: _userPassword); //파이어베이스 계정 확인
-                          QuerySnapshot snapshot = await FirebaseService(
-                              uid: FirebaseAuth.instance.currentUser!.uid)
-                              .getUserData(_userEmail); //유저 데이터 이메일로 받이오기
-                          if(newUser.user != null){
-                            await StorageService().saveUserLoggedInStatus("true"); //스토리지에 로그인 정보 저장
-                            await StorageService().saveUserName(snapshot.docs[0]['fullName']); //스토리지에 닉네임 저장
-                            await StorageService().saveUserEmail(_userEmail); //스토리지에 이메일 저장
-                            await StorageService().saveUserPwd(_userPassword);
-                            await StorageService().saveUserID(snapshot.docs[0]['id']); //스토리지에 파이어베이스 id 저장
-                            Navigator.pushNamedAndRemoveUntil(context, '/toNavigationBarPage', (route) => false); //로그인
-                          }
-                        }catch(e){ //에러 메시지
-                          debugPrint("$e");
-                          _showLoginAlert();
                         }
-                      }
-                    },
+                      },
+                    ),
                   ),
                 ],
               ),

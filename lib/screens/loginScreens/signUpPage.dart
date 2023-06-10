@@ -125,26 +125,33 @@ class _SignUpPageState extends State<SignUpPage> {
                     keyboardType: TextInputType.text,
                   ),
                   SizedBox(height: 40),
-                  CupertinoButton( //계정 생성 버튼
-                    child: Text("다 음"),
-                    onPressed: () async{
-                        FocusScope.of(context).unfocus();
-                        if(_tryValidation()){ //형식 확인
-                          try{
-                            print(_userEmail);
-                            print(_userPassword);
-                            final newUser = await _authentication
-                                .createUserWithEmailAndPassword(
-                                email: _userEmail, password: _userPassword); //파이어베이스 계정 확인
-                            if(newUser.user != null){ //계정 있으면 이동
-                              Navigator.pushNamed(context, "/toMakeUserPage", arguments: newUser); //유저 정보를 입력페이지로 전달
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(30)
+                    ),
+                    width: 150,
+                    child: CupertinoButton( //계정 생성 버튼
+                      child: Text("다 음", style: Theme.of(context).textTheme.button),
+                      onPressed: () async{
+                          FocusScope.of(context).unfocus();
+                          if(_tryValidation()){ //형식 확인
+                            try{
+                              print(_userEmail);
+                              print(_userPassword);
+                              final newUser = await _authentication
+                                  .createUserWithEmailAndPassword(
+                                  email: _userEmail, password: _userPassword); //파이어베이스 계정 확인
+                              if(newUser.user != null){ //계정 있으면 이동
+                                Navigator.pushNamed(context, "/toMakeUserPage", arguments: newUser); //유저 정보를 입력페이지로 전달
+                              }
+                            }catch(e){ //에러 메시지
+                              debugPrint("$e");
+                              _showAccountAlert();
                             }
-                          }catch(e){ //에러 메시지
-                            debugPrint("$e");
-                            _showAccountAlert();
                           }
-                        }
-                      },
+                        },
+                    ),
                   ),
                 ],
               ),

@@ -47,18 +47,52 @@ class _MapPageState extends State<MapPage> {
   //container change bool
   bool isClickedPersonally = false;
   bool hasSearched = false;
-  bool isShow = true;
-  bool widgetShow = true;
+  bool isShow = false;
+  bool widgetShow = false;
 
-  String _date1 = "Choose Date";
+  String _date = "날짜 선택";
+  String _time = "시간 선택";
   List<Event> events = [];
 
   // 마커 이미지
   List<String> images = ['assets/images/marker1.png','assets/images/marker2.png',
     'assets/images/marker3.png', 'assets/images/marker4.png',
     'assets/images/marker5.png', 'assets/images/marker6.png'];
+  List<Image> disable_type_image = [
+    Image.asset('assets/images/disabled.png'),
+    Image.asset('assets/images/body.png'),
+    Image.asset('assets/images/blind.png'),
+    Image.asset('assets/images/deaf.png'),
+    Image.asset('assets/images/baby.png'),
+  ];
+  List<Image> sel_type_image = [];
 
-  String _keyword = "";
+  _buildChoiceList() {
+    List<Widget> choices = [];
+    disable_type_image.forEach((item) {
+      choices.add(Container(
+        padding: const EdgeInsets.only(top:10, left: 5, right: 5, bottom: 5),
+        child: ChoiceChip(
+          selectedColor: Theme.of(context).primaryColor,
+          label: Container(
+              width: 35,
+              height: 50,
+              child: item
+
+          ),
+          selected: sel_type_image.contains(item),
+          onSelected: (selected) {
+            setState(() {
+              sel_type_image.contains(item)
+                  ? sel_type_image.remove(item)
+                  : sel_type_image.add(item);
+            });
+          },
+        ),
+      ));
+    });
+    return choices;
+  }
 
   _getCurrentLocation() async{
     myPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
@@ -84,11 +118,18 @@ class _MapPageState extends State<MapPage> {
             showDialog(
                 context: context,
                 builder: (context) {
-                  return AlertDialog(
-                    title: const Text("Remove ?"),
+                  return CupertinoAlertDialog(
+                    title: const Text("일정에서 제거하시겠습니까?"),
                     actions: [
-                      TextButton(
-                        child: const Text("YES"),
+                      CupertinoButton(
+                        child: const Text("취소"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      CupertinoButton(
+                        child: Text("삭제",
+                        style: TextStyle(color: Colors.red,)),
                         onPressed: () async {
                           markers.clear();
                           points.remove(coordinate);
@@ -106,12 +147,6 @@ class _MapPageState extends State<MapPage> {
                           Navigator.of(context).pop();
                         },
                       ),
-                      TextButton(
-                        child: const Text("NO"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      )
                     ],
                   );
                 }
@@ -120,6 +155,25 @@ class _MapPageState extends State<MapPage> {
       ));
     });
     markerId++;
+  }
+
+  showAlertMsg(){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: const Text("일정을 하나 이상 선택하세요!"),
+            actions: [
+              CupertinoButton(
+                child: const Text("확인"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+    );
   }
 
   @override
@@ -139,9 +193,20 @@ class _MapPageState extends State<MapPage> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: [
-          IconButton(
-              onPressed: _handlePressButton,
-              icon: Icon(CupertinoIcons.search)
+          Container(
+            margin: EdgeInsets.only(top:10, right: 10),
+            width: 45,
+            height: 30,
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(30)
+            ),
+            child: IconButton(
+                onPressed: _handlePressButton,
+                icon: Icon(CupertinoIcons.search,
+                  color: Colors.white,
+                )
+            ),
           )
         ],
       ),
@@ -177,7 +242,12 @@ class _MapPageState extends State<MapPage> {
                           },
                       ),
                       ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).accentColor
+                          ),
                           onPressed: () {
+                            isShow = true;
+                            widgetShow = true;
                             if(hasSearched) {
                               isClickedPersonally = true;
                               setState(() {});
@@ -185,6 +255,9 @@ class _MapPageState extends State<MapPage> {
                           },
                           child: const Text("일정 작성")
                       ),
+                      SizedBox(
+                        height: 10,
+                      )
                     ],
                   ),
                 )
@@ -193,8 +266,8 @@ class _MapPageState extends State<MapPage> {
                   :AnimatedContainer(
                     duration: Duration(milliseconds: 200),
                     padding: const EdgeInsets.only(left: 20, right:20),
-                    height:isShow?300:20,
-                    decoration: const BoxDecoration(
+                    height:isShow?220:24,
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(20.0),
                         topLeft: Radius.circular(20.0),
@@ -214,31 +287,31 @@ class _MapPageState extends State<MapPage> {
                           child: Row(
                             children: [
                               Container(
-                                height: 9,
+                                height: 24,
                                 width: MediaQuery.of(context).size.width/2-60,
                                 color: Colors.white,
                               ),
                               Column(
                                 children: [
                                   Container(
-                                    height: 3,
+                                    height: 10,
                                     width: 80,
                                     color: Colors.white,
                                   ),
                                   Container(
-                                    height: 3,
+                                    height: 4,
                                     width: 80,
                                     color: Colors.grey,
                                   ),
                                   Container(
-                                    height: 3,
+                                    height: 10,
                                     width: 80,
                                     color: Colors.white,
                                   ),
                                 ],
                               ),
                               Container(
-                                height: 9,
+                                height: 24,
                                 width: MediaQuery.of(context).size.width/2-60,
                                 color: Colors.white,
                               ),
@@ -278,144 +351,75 @@ class _MapPageState extends State<MapPage> {
                                       ]
                                   ),)
                             ),
-                            Row(                                                  //시간
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Icon(Icons.access_time),
-                                  Text(" Time",
-                                      style: TextStyle(
-                                          color: Colors.black87,
-                                          fontFamily: "GmarketSansTTF",
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold
-                                      )
-                                  )
-                                ]
-                            ),
-                            Row(                                                  //일정 시작 버튼 2개
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(5.0)),
-                                      elevation: 0,
-                                      backgroundColor: Colors.white
-                                  ),
-                                  onPressed: () async {
-                                    await DatePicker.showDatePicker(context,
-                                        theme: const DatePickerTheme(
-                                          containerHeight: 210.0,
-                                        ),
-                                        showTitleActions: true,
-                                        minTime: DateTime(2000, 1, 1),
-                                        maxTime: DateTime(2023, 12, 31), onConfirm: (date) {
-
-                                          _date1 = '${date.year} - ${date.month} - ${date.day}';
-                                          setState(() {});
-                                        }, currentTime: DateTime.now(), locale: LocaleType.en);
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 50.0,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Container(
-                                              child: Text(
-                                                " $_date1",
-                                                style: const TextStyle(
-                                                  color: Colors.black87,
-                                                  fontFamily: "GmarketSansTTF",
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                             Row(                                                  //해시태그 검색
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: const [
-                                  Text(" # Keyword",
+                                  Text(" # 필터",
                                       style: TextStyle(
                                           color: Colors.black87,
                                           fontFamily: "GmarketSansTTF",
-                                          fontSize: 14,
+                                          fontSize: 16,
                                           fontWeight: FontWeight.bold
                                       )
                                   )
                                 ]
                             ),
-                            Padding(                                                  //해시태그 텍스트 필드
-                              padding: const EdgeInsets.only(left:20, right:20),
-                              child: TextField(
-                                onChanged: (value){
-                                  _keyword = value;
-                                },
-                                decoration: const InputDecoration(
-                                  hintText: "Enter your interested event keyword!",
-                                ),
-                              ),
+                            Wrap(
+                              children: _buildChoiceList(),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  ElevatedButton(
-                                    child: Text("근처 장소 찾기"),
-                                    onPressed: (){
-                                      if(events.length < 7){
-                                        var fromMapObject = FromMap();
-                                        fromMapObject.locDetail = detail.result;
-                                        fromMapObject.events = events;
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                ElevatedButton(
+                                  child: Text("근처 장소 찾기"),
+                                  onPressed: (){
+                                    if(events.length < 7){
+                                      var fromMapObject = FromMap();
+                                      fromMapObject.locDetail = detail.result;
+                                      fromMapObject.events = events;
 
-                                        // pop으로 전달한 arguments를 e가 받음
-                                        Navigator.of(context).pushNamed("/toShowPlacesPage", arguments: fromMapObject).then((e) {  //장소+키워드+시간
-                                          if (e != null) {
-                                            markers.removeWhere((marker) => marker.markerId.value == "0");
+                                      // pop으로 전달한 arguments를 e가 받음
+                                      Navigator.of(context).pushNamed("/toShowPlacesPage", arguments: fromMapObject).then((e) {  //장소+키워드+시간
+                                        if (e != null) {
+                                          markers.removeWhere((marker) => marker.markerId.value == "0");
 
-                                            Event myEvent = e as Event;
-                                            events.add(myEvent);
+                                          Event myEvent = e as Event;
+                                          events.add(myEvent);
 
-                                            points.add(LatLng(myEvent.getLat(), myEvent.getLng()));
-                                            polyline.add(Polyline(
-                                              patterns: [
-                                                PatternItem.dash(50),
-                                                PatternItem.gap(50),
-                                              ],
-                                              polylineId: const PolylineId('0'),
-                                              points: points,
-                                              color: Colors.lightBlueAccent,
-                                            ));
+                                          points.add(LatLng(myEvent.getLat(), myEvent.getLng()));
+                                          polyline.add(Polyline(
+                                            patterns: [
+                                              PatternItem.dash(30),
+                                              PatternItem.gap(20),
+                                            ],
+                                            polylineId: const PolylineId('0'),
+                                            points: points,
+                                            color: Theme.of(context).accentColor,
+                                          ));
 
-                                            //set state 포함
-                                            addMarker(LatLng(myEvent.getLat(), myEvent.getLng()));
+                                          //set state 포함
+                                          addMarker(LatLng(myEvent.getLat(), myEvent.getLng()));
 
-                                            _controller.animateCamera(CameraUpdate.newLatLng(LatLng(myEvent.getLat(), myEvent.getLng())));
-                                          }
-                                        });
-                                      }
-                                    },
+                                          _controller.animateCamera(CameraUpdate.newLatLng(LatLng(myEvent.getLat(), myEvent.getLng())));
+                                        }
+                                      });
+                                    }
+                                  },
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Theme.of(context).accentColor
                                   ),
-                                  ElevatedButton(
-                                    child: Text("일정 생성하기"),
-                                    onPressed: (){
-                                      if(!events.isEmpty){
-                                        Navigator.of(context).pushNamed('/toPlanDetailPage', arguments: events);
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
+                                  child: Text("일정 생성하기"),
+                                  onPressed: (){
+                                    if(!events.isEmpty){
+                                      Navigator.of(context).pushNamed('/toPlanDetailPage', arguments: events);
+                                    }else{
+                                      showAlertMsg();
+                                    }
+                                  },
+                                ),
+                              ],
                             )
                           ],
                         ):Container()
@@ -436,31 +440,31 @@ class _MapPageState extends State<MapPage> {
                         child: Row(
                           children: [
                             Container(
-                              height: 9,
+                              height: 24,
                               width: MediaQuery.of(context).size.width/2-60,
                               color: Colors.white,
                             ),
                             Column(
                               children: [
                                 Container(
-                                  height: 3,
+                                  height: 10,
                                   width: 80,
                                   color: Colors.white,
                                 ),
                                 Container(
-                                  height: 3,
+                                  height: 4,
                                   width: 80,
                                   color: Colors.grey,
                                 ),
                                 Container(
-                                  height: 3,
+                                  height: 10,
                                   width: 80,
                                   color: Colors.white,
                                 ),
                               ],
                             ),
                             Container(
-                              height: 9,
+                              height: 24,
                               width: MediaQuery.of(context).size.width/2-60,
                               color: Colors.white,
                             ),

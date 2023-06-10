@@ -35,7 +35,63 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Plango',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primaryColor: const Color.fromARGB(255, 246, 114, 128),
+        accentColor: const Color.fromARGB(255, 53, 92, 125),
+        textTheme: TextTheme(
+          headline1: TextStyle(
+            fontSize: 20,
+            fontFamily: "GmarketSansTTF",
+            fontWeight: FontWeight.bold,
+            color: Colors.black87
+          ),
+          headline2: TextStyle(
+              fontSize: 16,
+              fontFamily: "GmarketSansTTF",
+              fontWeight: FontWeight.bold,
+              color: Colors.black87
+          ),
+          subtitle1: TextStyle(
+              fontSize: 14,
+              fontFamily: "GmarketSansTTF",
+              color: Colors.black87
+          ),
+          bodyText1: TextStyle(
+              fontSize: 12,
+              fontFamily: "GmarketSansTTF",
+              color: Colors.black87
+          ),
+          bodyText2: TextStyle(
+            fontSize: 16,
+            fontFamily: "GmarketSansTTF",
+            color: Colors.black87
+          ),
+          button: TextStyle(
+            fontSize: 16,
+            fontFamily: "GmarketSansTTF",
+            color: Colors.white
+          ),
+        ),
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.black87,
+          centerTitle: true,
+          titleTextStyle: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            fontFamily: "GmarketSansTTF",
+            color: Colors.black87
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            backgroundColor: const Color.fromARGB(255, 246, 114, 128),
+            elevation: 0
+          ),
+        )
       ),
       initialRoute: '/',
       routes: {

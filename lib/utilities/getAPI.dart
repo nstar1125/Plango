@@ -62,6 +62,12 @@ class _GetAPIState extends State<GetAPI> {
           // 청각
           'hearingroom': myJsonList2['hearingroom'],
 
+          // 유아
+          'stroller' : myJsonList2['stroller'],
+          'lactationroom' : myJsonList2['lactationroom'],
+          'babysparechair' : myJsonList2['babysparechair'],
+          'infantsfamilyetc' : myJsonList2['infantsfamilyetc'],
+
         }).then((documentSnapshot) async => await db.collection('places').doc(documentSnapshot.id).update({"placeId": documentSnapshot.id}));
       }
     } else {

@@ -25,6 +25,10 @@ Map<String, dynamic> initEvent = {
   'helpdog': "",
   'brailepromotion': "",
   'hearingroom': "",
+  'stroller': "",
+  'lactationroom': "",
+  'babysparechair': "",
+  'infantsfamilyetc': "",
   'image': "",
   'imagedata': null,
 };
@@ -44,15 +48,22 @@ class Event{
   String _wheelchair = "";
   String _exit = "";
   String _elevator = "";
+
   String _restroom = "";
   String _auditorium = "";
   String _handicapetc = "";
   String _audioguide = "";
   String _braileblock = "";
+
   String _guidehuman = "";
   String _helpdog = "";
   String _brailepromotion = "";
   String _hearingroom = "";
+  String _stroller = "";
+
+  String _lactationroom = "";
+  String _babysparechair = "";
+  String _infantsfamilyetc = "";
   String _image = "";
   Uint8List? _imagedata;
 
@@ -80,6 +91,89 @@ class Event{
       _like = _like - 1;
     }
   }
+
+  setCategory(int value) {
+    _category = value;
+  }
+
+  setParking(String value) {
+    _parking = value;
+  }
+
+  setPublictransport(String value) {
+    _publictransport = value;
+  }
+
+  setWheelchair(String value) {
+    _wheelchair = value;
+  }
+
+  setExit(String value) {
+    _exit = value;
+  }
+
+  setElevator(String value) {
+    _elevator = value;
+  }
+
+  setRestroom(String value) {
+    _restroom = value;
+  }
+
+  setAuditorium(String value) {
+    _auditorium = value;
+  }
+
+  setHandicapetc(String value) {
+    _handicapetc = value;
+  }
+
+  setAudioguide(String value) {
+    _audioguide = value;
+  }
+
+  setBraileblock(String value) {
+    _braileblock = value;
+  }
+
+  setGuidehuman(String value) {
+    _guidehuman = value;
+  }
+
+  setHelpdog(String value) {
+    _helpdog = value;
+  }
+
+  setBrailepromotion(String value) {
+    _brailepromotion = value;
+  }
+
+  setHearingroom(String value) {
+    _hearingroom = value;
+  }
+
+  setStroller(String value) {
+    _stroller = value;
+  }
+
+  setLactationroom(String value) {
+    _lactationroom = value;
+  }
+
+  setBabysparechair(String value) {
+    _babysparechair = value;
+  }
+
+  setInfantsfamilyetc(String value) {
+    _infantsfamilyetc = value;
+  }
+
+  setImage(String value) {
+    _image = value;
+  }
+
+
+  ////////////////////////////////////////////////////////////////////
 
   String getTitle(){
     return _title;
@@ -111,56 +205,82 @@ class Event{
       });
     }
   }
-
   getImageData() {
     return _imagedata;
   }
 
-  String getInfo(){
+  String getCommonInfo(){
     String info = "";
     if (_parking != "") {
-      info = info + _parking + '\n';
+      info = info + "주차장: "+ _parking + '\n';
     }
     if (_publictransport != "") {
-      info = info + _publictransport + '\n';
-    }
-    if (_wheelchair != "") {
-      info = info + _wheelchair + '\n';
-    }
-    if (_exit != "") {
-      info = info + _exit + '\n';
+      info = info + "대중교통: "+_publictransport + '\n';
     }
     if (_elevator != "") {
-      info = info + _elevator + '\n';
+      info = info + "엘리베이터: "+_elevator + '\n';
     }
     if (_restroom != "") {
-      info = info + _restroom + '\n';
-    }
-    if (_auditorium != "") {
-      info = info + _auditorium + '\n';
+      info = info + "화장실: "+ _restroom + '\n';
     }
     if (_handicapetc != "") {
-      info = info + _handicapetc + '\n';
-    }
-    if (_braileblock != "") {
-      info = info + _braileblock + '\n';
+      info = info + "장애시설: "+_handicapetc + '\n';
     }
     if (_guidehuman != "") {
-      info = info + _guidehuman + '\n';
+      info = info + "안내요원: "+_guidehuman + '\n';
+    }
+    return info;
+  }
+  String getDisabledInfo(){
+    String info = "";
+    if (_wheelchair != "") {
+      info = info + "휠체어: "+_wheelchair + '\n';
+    }
+    if (_auditorium != "") {
+      info = info + "장애인석: "+_auditorium + '\n';
+    }
+    if (_exit != "") {
+      info = info + "경사로: "+_exit + '\n';
+    }
+    return info;
+  }
+  String getBlindInfo(){
+    String info = "";
+    if (_braileblock != "") {
+      info = info + "점자블록: "+ _braileblock + '\n';
     }
     if (_helpdog != "") {
-      info = info + _helpdog + '\n';
+      info = info + "안내견: "+_helpdog + '\n';
     }
     if (_brailepromotion != "") {
-      info = info + _brailepromotion + '\n';
+      info = info + "점자정보: "+_brailepromotion + '\n';
     }
     if (_audioguide != "") {
-      info = info + _audioguide + '\n';
+      info = info + "오디오 가이드: "+_audioguide + '\n';
     }
+    return info;
+  }
+  String getDeafInfo(){
+    String info = "";
     if (_hearingroom != "") {
-      info = info + _hearingroom + '\n';
+      info = info + "청력실: "+_hearingroom + '\n';
     }
-
+    return info;
+  }
+  String getBabyInfo(){
+    String info = "";
+    if (_stroller != "") {
+      info = info + "유모차: "+ _stroller + '\n';
+    }
+    if (_lactationroom != "") {
+      info = info + "수유실: "+_lactationroom + '\n';
+    }
+    if (_babysparechair != "") {
+      info = info + "유아용 의자: "+_babysparechair + '\n';
+    }
+    if (_infantsfamilyetc != "") {
+      info = info + "편의시설: "+_infantsfamilyetc + '\n';
+    }
     return info;
   }
 
@@ -212,6 +332,10 @@ class Event{
     'helpdog': _helpdog,
     'brailepromotion': _brailepromotion,
     'hearingroom': _hearingroom,
+    'stroller': _stroller,
+    'lactationroom': _lactationroom,
+    'babysparechair': _babysparechair,
+    'infantsfamilyetc': _infantsfamilyetc,
     'image': _image,
     'imagedata': _imagedata,
   };
@@ -240,8 +364,38 @@ class Event{
         _helpdog = json['helpdog'],
         _brailepromotion = json['brailepromotion'],
         _hearingroom = json['hearingroom'],
+        _stroller = json['stroller'],
+        _lactationroom = json['lactationroom'],
+        _babysparechair = json['babysparechair'],
+        _infantsfamilyetc = json['infantsfamilyetc'],
         _image = json['image'],
         _imagedata = json['imagedata']
   ;
+
+}
+
+class Plan{
+  String? title;
+  List<Event>? events;
+  List<String>? dates;
+  List<String>? times;
+  Plan(String title, List<Event> events, List<String> dates, List<String> times){
+    this.title = title;
+    this.events = events;
+    this.dates = dates;
+    this.times = times;
+  }
+  String getTitle(){
+    return this.title!;
+  }
+  List<Event> getEventList(){
+    return this.events!;
+  }
+  List<String> getDateList(){
+    return this.dates!;
+  }
+  List<String> getTimeList(){
+    return this.times!;
+  }
 
 }
