@@ -22,6 +22,7 @@ class FromMap {
   late PlaceDetails locDetail;
   late String time;
   late List<Event> events;
+  late List<int> sel_type;
 }
 
 class MapPage extends StatefulWidget {
@@ -66,6 +67,7 @@ class _MapPageState extends State<MapPage> {
     Image.asset('assets/images/baby.png'),
   ];
   List<Image> sel_type_image = [];
+  List<int> sel_type_int = [];
 
   _buildChoiceList() {
     List<Widget> choices = [];
@@ -86,6 +88,13 @@ class _MapPageState extends State<MapPage> {
               sel_type_image.contains(item)
                   ? sel_type_image.remove(item)
                   : sel_type_image.add(item);
+
+              int temp_index = disable_type_image.indexOf(item);
+
+              !sel_type_image.contains(item)
+                  ? sel_type_int.remove(temp_index)
+                  : sel_type_int.add(temp_index);
+
             });
           },
         ),
@@ -373,6 +382,7 @@ class _MapPageState extends State<MapPage> {
                                       var fromMapObject = FromMap();
                                       fromMapObject.locDetail = detail.result;
                                       fromMapObject.events = events;
+                                      fromMapObject.sel_type = sel_type_int;
 
                                       // pop으로 전달한 arguments를 e가 받음
                                       Navigator.of(context).pushNamed("/toShowPlacesPage", arguments: fromMapObject).then((e) {  //장소+키워드+시간

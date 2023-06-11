@@ -19,6 +19,15 @@ class _ShowPlacesPageState extends State<ShowPlacesPage> {
 
   Event selectedEvent = Event.fromJson(initEvent);
 
+  bool hasCommonElement(List<int> list1, List<int> list2) {
+    for (var element in list1) {
+      if (list2.contains(element)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     //고른 장소의 위치를 얻기 위해 받아왔음
@@ -27,6 +36,11 @@ class _ShowPlacesPageState extends State<ShowPlacesPage> {
     List<LatLng> positions = [];
     for (int i = 0; i < fromMapObject.events.length; i++){
       positions.add(LatLng(fromMapObject.events[i].getLat(), fromMapObject.events[i].getLng()));
+    }
+
+    List<String> placeIds = [];
+    for (int i = 0; i < fromMapObject.events.length; i++){
+      placeIds.add(fromMapObject.events[i].getPlaceId());
     }
 
     return Scaffold(
@@ -55,19 +69,13 @@ class _ShowPlacesPageState extends State<ShowPlacesPage> {
               itemBuilder: (context, index) {
                 final DocumentSnapshot documentSnapshot = snapshots.data!.docs[index];
 
-                //거리 1km 안의 이벤트만 리스트로 보여주기.. 앱 내 작동..
-                double distanceInMeters = Geolocator.distanceBetween(fromMapObject.locDetail.geometry!.location.lat,
-                    fromMapObject.locDetail.geometry!.location.lng, documentSnapshot['lat'], documentSnapshot['lng']);
-
-
-                //조건: 거리1km내
-                if((distanceInMeters < 1000)) {
+                selectedEvent = Event.fromJson(documentSnapshot.data() as Map<String, dynamic>);
+                if(hasCommonElement(selectedEvent.getSelType(), fromMapObject.sel_type)) {
                   return GestureDetector(
                     onTap: () async {
-
                       selectedEvent = Event.fromJson(documentSnapshot.data() as Map<String, dynamic>);
                       await selectedEvent.getImage();
-                      if (!positions.contains(LatLng(documentSnapshot['lat'], documentSnapshot['lng']))) {
+                      if (!placeIds.contains(documentSnapshot['placeId'])) {
                         //클릭 시 해당 event의 상세 내용을 확인할 수 있는 페이지로 넘어감
                         //then은 두 번 pop하기 위한 장치
                         Navigator.of(context).pushNamed('/toPlaceDetailPage', arguments: selectedEvent).then((e) {
@@ -80,7 +88,7 @@ class _ShowPlacesPageState extends State<ShowPlacesPage> {
                     },
                     child: Card(
                         margin: EdgeInsets.all(10.0),
-                        child: positions.contains(LatLng(documentSnapshot['lat'], documentSnapshot['lng'])) ?
+                        child: placeIds.contains(documentSnapshot['placeId']) ?
                         Container(
                           color: Colors.grey,
                           child: ListTile(

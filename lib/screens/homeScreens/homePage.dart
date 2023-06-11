@@ -13,6 +13,10 @@ class _HomePageState extends State<HomePage> {
   String _uname = "";
   String _uemail = "";
 
+  final PageController pageController = PageController(
+    initialPage: 0,
+  );
+
   _getMyData() async {
     if (mounted) {
       try {
@@ -89,12 +93,92 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Center(
-        child: ElevatedButton(
-          child: Text("go to getapi"),
-          onPressed: () {
-            Navigator.pushNamed(context, '/toGetAPIPage');
-          },
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 340,
+                child: PageView(
+                  controller: pageController,
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Image(
+                          image: AssetImage(
+                              "assets/images/home_illust_1.png"),
+                        )),
+                    Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Image(
+                          image: AssetImage(
+                              "assets/images/home_illust_2.png"),
+                        )),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Container(
+                    height: 1,
+                    width: MediaQuery.of(context).size.width - 40,
+                    color: Colors.grey),
+              ),
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    children: [
+                      SizedBox(width: 20),
+                      Text(
+                        "무장애 여행 일정을 만들어 보세요",
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: "GmarketSansTTF",
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Container(
+                    height: 1,
+                    width: MediaQuery.of(context).size.width - 40,
+                    color: Colors.grey),
+              ),
+              Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: Image(
+                    image: AssetImage(
+                        "assets/images/hangang.png"),
+                  )),
+              SizedBox(height: 20),
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    children: [
+                      SizedBox(width: 20),
+                      Text(
+                        "한강에서 피크닉을 즐겨보세요",
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: "GmarketSansTTF",
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Container(
+                    height: 1,
+                    width: MediaQuery.of(context).size.width - 40,
+                    color: Colors.grey),
+              ),
+            ],
+          ),
         ),
       ),
     );

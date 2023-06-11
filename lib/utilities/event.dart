@@ -64,6 +64,7 @@ class Event{
   String _lactationroom = "";
   String _babysparechair = "";
   String _infantsfamilyetc = "";
+
   String _image = "";
   Uint8List? _imagedata;
 
@@ -307,6 +308,27 @@ class Event{
 
     return str_category;
   }
+
+
+  List<int> getSelType() {
+    List<int> sel_type = [0];
+
+    if (_wheelchair != "" || _auditorium != "" || _exit != "") {
+      sel_type.add(1);
+    }
+    if (_braileblock != "" || _helpdog != "" || _brailepromotion != "" || _audioguide != "") {
+      sel_type.add(2);
+    }
+    if (_hearingroom != "") {
+      sel_type.add(3);
+    }
+    if (_stroller != "" || _lactationroom != "" || _babysparechair != "" || _infantsfamilyetc != "") {
+      sel_type.add(4);
+    }
+
+    return sel_type;
+  }
+
 
 
   Map<String, dynamic> toMap() => {

@@ -45,8 +45,8 @@ class _ShowAutoPathPageState extends State<ShowAutoPathPage> {
   late PlacesDetailsResponse detail;
 
   List<Event> events = [];
+  bool firstBuild = true;
 
-  AsyncMemoizer memory = AsyncMemoizer();
 
   // 마커 이미지
   List<String> images = ['assets/images/marker1.png','assets/images/marker2.png',
@@ -92,9 +92,9 @@ class _ShowAutoPathPageState extends State<ShowAutoPathPage> {
                           for(int i = 0; i < points.length; i++){
                             await addMarker(points[i]);
                           }
-                          setState(() {
-
-                          });
+                          print(points);
+                          print(events);
+                          setState(() { });
                           Navigator.of(context).pop();
                         },
                       ),
@@ -153,10 +153,11 @@ class _ShowAutoPathPageState extends State<ShowAutoPathPage> {
 
   @override
   Widget build(BuildContext context) {
-    memory.runOnce((){
-      events = ModalRoute.of(context)!.settings.arguments as List<Event>;
+    events = ModalRoute.of(context)!.settings.arguments as List<Event>;
+    if (firstBuild){
       buildPath();
-    });
+      firstBuild = false;
+    }
 
     return Scaffold(
         appBar: AppBar(
@@ -180,6 +181,7 @@ class _ShowAutoPathPageState extends State<ShowAutoPathPage> {
                 setState(() {
                   _controller = controller;
                 });
+                _controller.animateCamera(CameraUpdate.newLatLng(LatLng(events[-1].getLat(), events[-1].getLng())));
               },
             ),
             Column(
@@ -208,3 +210,5 @@ class _ShowAutoPathPageState extends State<ShowAutoPathPage> {
     );
   }
 }
+
+
