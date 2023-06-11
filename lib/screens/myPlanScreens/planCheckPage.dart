@@ -222,16 +222,41 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
                                       ),
                                     ),
                                     SizedBox(height: 10),
-                                    Container(
-                                        height: 120,
-                                        child: Hero(
-                                          tag: events[index].getPlaceId(),
-                                          child: events[index].getImageData() != null ? Image.memory(
-                                              events[index].getImageData()!
-                                          ) : Container(child: Center(child: Text("이미지 없음"),),),
-                                        )
-                                    ),
-
+                                    Text("  공용", style: Theme.of(context).textTheme.headline2,),
+                                    events[index].getCommonInfo()!=null
+                                        ?Container(
+                                      padding: EdgeInsets.only(left:10, right: 10),
+                                      child: Text(events[index].getCommonInfo(), style: Theme.of(context).textTheme.bodyText1,),
+                                    )
+                                        :Container(),
+                                    Text("  신체 장애", style: Theme.of(context).textTheme.headline2,),
+                                    events[index].getDisabledInfo()!=null
+                                        ?Container(
+                                      padding: EdgeInsets.only(left:10, right: 10),
+                                      child: Text(events[index].getDisabledInfo(), style: Theme.of(context).textTheme.bodyText1,),
+                                    )
+                                        :Container(),
+                                    Text("  시각", style: Theme.of(context).textTheme.headline2,),
+                                    events[index].getBlindInfo()!=null
+                                        ?Container(
+                                      padding: EdgeInsets.only(left:10, right: 10),
+                                      child: Text(events[index].getBlindInfo(), style: Theme.of(context).textTheme.bodyText1,),
+                                    )
+                                        :Container(),
+                                    Text("  청각", style: Theme.of(context).textTheme.headline2,),
+                                    events[index].getDeafInfo()!=null
+                                        ?Container(
+                                      padding: EdgeInsets.only(left:10, right: 10),
+                                      child: Text(events[index].getDeafInfo(), style: Theme.of(context).textTheme.bodyText1,),
+                                    )
+                                        :Container(),
+                                    Text("  유아", style: Theme.of(context).textTheme.headline2,),
+                                    events[index].getBabyInfo()!=null
+                                        ?Container(
+                                      padding: EdgeInsets.only(left:10, right: 10),
+                                      child: Text(events[index].getBabyInfo(), style: Theme.of(context).textTheme.bodyText1,),
+                                    )
+                                        :Container(),
                                   ],
                                 ),
                               )

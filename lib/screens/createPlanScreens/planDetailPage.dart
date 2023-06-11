@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plango/utilities/event.dart';
+import 'package:plango/utilities/storageService.dart';
 
 class PlanDetailPage extends StatefulWidget {
   const PlanDetailPage({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
   final currentUser = FirebaseAuth.instance;
   late GoogleMapController _controller;
   final List<Set<Marker>> markersList = [];
+  String myName = "";
 
   String planTitle = "";
   List<bool> showList = [];
@@ -44,6 +46,14 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
       dateList.removeAt(eventCount);
       timeList.removeAt(eventCount);
     }
+  }
+
+  _getMyName() async {
+    await StorageService().getUserName().then((value) {
+      setState(() {
+        myName = value!;
+      });
+    });
   }
 
   void addMarker(coordinate) {
@@ -86,6 +96,7 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
   @override
   void initState() {
     super.initState();
+    _getMyName();
     WidgetsBinding.instance
         .addPostFrameCallback((_) => listUpdate()); //빌드 후 실행
   }
@@ -461,8 +472,12 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
                       }else if(planTitle==""){
                         showAlertMsg("일정 제목을 입력하세요.");
                       }else{
+
+
+
                         Plan myPlan = new Plan(planTitle,events,dateList,timeList);
                         final plan = <String, dynamic>{
+                          "plannerName": myName,
                           "plannerId": currentUser.currentUser!.uid,
                           "title": planTitle,
                           "dateList": dateList,

@@ -32,7 +32,6 @@ class _MyPlanListPageState extends State<MyPlanListPage> {
               itemCount: streamSnapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
-
                 return Dismissible(
                   key: Key(streamSnapshot.data!.docs.toString()),
                   background: Card(

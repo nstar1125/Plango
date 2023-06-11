@@ -47,28 +47,44 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(),
       drawer: Drawer(
+        backgroundColor: Theme.of(context).accentColor,
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor
+              ),
               accountName: Text(_uname),
               accountEmail: Text(_uemail),
             ),
             ListTile(
-              leading: const Icon(Icons.settings),
+              leading: Icon(Icons.settings,
+                  color: Colors.white
+              ),
               //teal
-              title: const Text('설정'),
+              title: Text('설정',
+                style: Theme.of(context).textTheme.button,
+              ),
               onTap: () {},
-              trailing: const Icon(Icons.navigate_next),
+              trailing: Icon(Icons.navigate_next,
+                  color: Colors.white
+              ),
             ),
             ListTile(
-              leading: const Icon(Icons.logout_sharp),
-              title: const Text('로그아웃'),
+              leading: Icon(Icons.logout_sharp,
+                  color: Colors.white
+              ),
+              title: Text('로그아웃',
+                style: Theme.of(context).textTheme.button,
+              ),
               onTap: () async {
                 await StorageService().deleteAll();
                 Navigator.pushNamedAndRemoveUntil(
                     context, '/toInitialPage', (route) => false); //로그인
               },
-              trailing: const Icon(Icons.navigate_next),
+              trailing: Icon(Icons.navigate_next,
+                  color: Colors.white
+              ),
             ),
           ],
         ),
