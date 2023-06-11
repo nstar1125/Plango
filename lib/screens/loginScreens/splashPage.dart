@@ -103,8 +103,40 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("splash screen"),
+      backgroundColor: Theme.of(context).primaryColor,
+      extendBodyBehindAppBar: true,
+      body: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Image.asset(
+              'assets/images/splash_img.png',
+              fit: BoxFit.fill,
+            ),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 150,
+                  height: 150,
+                  child: Image.asset('assets/images/app_logo.png'),
+                ),
+                Container(
+                  height: 40,
+                ),
+                Text("플랜고",
+                  style: TextStyle(
+                      fontSize: 40,
+                      color: Colors.white
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

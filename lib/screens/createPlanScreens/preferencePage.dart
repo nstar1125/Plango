@@ -200,7 +200,6 @@ class _PreferencePageState extends State<PreferencePage> {
         centerTitle: true,
         title: Text("일정 성격"),
       ),
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [

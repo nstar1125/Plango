@@ -51,6 +51,18 @@ class _SignUpPageState extends State<SignUpPage> {
       appBar: AppBar( //앱 상단 바
         title: const Text("계정 생성"),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () async{
+            try{
+              Navigator.pop(context);
+              final currentUser = _authentication.currentUser;
+              await currentUser?.delete();
+            }catch(e){
+              debugPrint("$e");
+            }
+          },
+        ),
       ),
         body: Center(
           child: Padding(

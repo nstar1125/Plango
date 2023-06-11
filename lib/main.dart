@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color.fromARGB(255, 246, 114, 128),
         accentColor: const Color.fromARGB(255, 53, 92, 125),
+        scaffoldBackgroundColor: Colors.white,
         textTheme: TextTheme(
           headline1: TextStyle(
             fontSize: 20,

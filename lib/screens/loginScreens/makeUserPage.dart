@@ -72,54 +72,67 @@ class _MakeUserPageState extends State<MakeUserPage> {
       body: Center(
         child: Column(
           children: [
-            Form(
-                key: _formKey,
-                child: TextFormField( //닉네임 입력창
-                    validator: ((value) {
-                      if (value!.isEmpty || value.length < 3) {
-                        return "닉네임은 최소 3글자 이상이야 합니다.";
-                      }
-                      return null;
-                    }),
-                    onSaved: ((value) {
-                      _userName = value!;
-                    }),
-                    onChanged: (value) {
-                      _userName = value;
-                    },
-                    decoration: const InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: "닉네임:",
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Form(
+                  key: _formKey,
+                  child: TextFormField( //닉네임 입력창
+                      validator: ((value) {
+                        if (value!.isEmpty || value.length < 3) {
+                          return "닉네임은 최소 3글자 이상이야 합니다.";
+                        }
+                        return null;
+                      }),
+                      onSaved: ((value) {
+                        _userName = value!;
+                      }),
+                      onChanged: (value) {
+                        _userName = value;
+                      },
+                      decoration: const InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        labelText: "닉네임:",
+                        ),
                       ),
-                    ),
+              ),
             ),
-            CupertinoButton(
-              child: Text("계정 생성하기"),
-              onPressed: () async{
-                FocusScope.of(context).unfocus();
-                QuerySnapshot querySnapshot
-                  = await userCollection.get();
-                List<Map<String, dynamic>> allUserData
-                  = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
-                if(_tryValidation()){ //닉네임 형식 확인
-                  try{
-                    for(int i=0; i<allUserData.length; i++){ //중복 닉네임 확인
-                      if(allUserData[i]["fullName"] == _userName){
-                        throw Error();
+            SizedBox(height: 40),
+            Container(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(30)
+              ),
+              width: 150,
+              child: CupertinoButton(
+                child: Text("계정 생성하기",
+                  style: Theme.of(context).textTheme.button,
+                ),
+                onPressed: () async{
+                  FocusScope.of(context).unfocus();
+                  QuerySnapshot querySnapshot
+                    = await userCollection.get();
+                  List<Map<String, dynamic>> allUserData
+                    = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+                  if(_tryValidation()){ //닉네임 형식 확인
+                    try{
+                      for(int i=0; i<allUserData.length; i++){ //중복 닉네임 확인
+                        if(allUserData[i]["fullName"] == _userName){
+                          throw Error();
+                        }
                       }
+                      await FirebaseService(uid: _newUser.user!.uid) //유저 정보 파이어베이스 업로드
+                          .savingUserData(
+                        _newUser.user!.email!,
+                        _userName
+                      );
+                      Navigator.pushNamedAndRemoveUntil(context, '/toInitialPage', (route) => false); //로그인
+                      Navigator.pushNamed(context, '/toSignInPage');
+                    }catch(e){
+                      _showNameAlert();
                     }
-                    await FirebaseService(uid: _newUser.user!.uid) //유저 정보 파이어베이스 업로드
-                        .savingUserData(
-                      _newUser.user!.email!,
-                      _userName
-                    );
-                    Navigator.pushNamedAndRemoveUntil(context, '/toInitialPage', (route) => false); //로그인
-                    Navigator.pushNamed(context, '/toSignInPage');
-                  }catch(e){
-                    _showNameAlert();
                   }
-                }
-              },
+                },
+              ),
             ),
           ],
         ),
