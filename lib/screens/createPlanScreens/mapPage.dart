@@ -51,8 +51,6 @@ class _MapPageState extends State<MapPage> {
   bool isShow = false;
   bool widgetShow = false;
 
-  String _date = "날짜 선택";
-  String _time = "시간 선택";
   List<Event> events = [];
 
   // 마커 이미지

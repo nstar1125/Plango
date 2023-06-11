@@ -46,6 +46,8 @@ class _PreferencePageState extends State<PreferencePage> {
   ];
 
   List<Image> sel_type_image = [];
+  List<int> sel_type_int = [];
+
   List<String> sel_pref_string = [];
 
   List<Event> events = [];
@@ -66,6 +68,11 @@ class _PreferencePageState extends State<PreferencePage> {
               sel_type_image.contains(item)
                   ? sel_type_image.remove(item)
                   : sel_type_image.add(item);
+
+              int temp_index = disable_type_image.indexOf(item);
+              !sel_type_image.contains(item)
+                  ? sel_type_int.remove(temp_index)
+                  : sel_type_int.add(temp_index);
             });
           },
         ),
@@ -184,6 +191,15 @@ class _PreferencePageState extends State<PreferencePage> {
         }
     );
   }
+  bool hasCommonElement(List<int> list1, List<int> list2) {
+    for (var element in list1) {
+      if (list2.contains(element)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -267,11 +283,17 @@ class _PreferencePageState extends State<PreferencePage> {
             SizedBox(height: 30),
             ElevatedButton.icon(
                 onPressed: () async{
-                  print(eventPool.length);
-                  if(eventPool.length>0){
-                    print("Pool : "+(eventPool.length).toString());
+                  List<Event> tempEventList = [];
+                  for(int i = 0; i<eventPool.length; i++){
+                    if(hasCommonElement(eventPool[i].getSelType(), sel_type_int)){
+                      tempEventList.add(eventPool[i]);
+                    }
+                  }
+                  print(tempEventList.length);
+                  if(tempEventList.length>0){
+                    print("Pool : "+(tempEventList.length).toString());
                     print(sel_pref_string);
-                    AutoPath auto = new AutoPath(eventPool, sel_pref_string);
+                    AutoPath auto = new AutoPath(tempEventList, sel_pref_string);
                     events = await auto.makePath(_count);
                     await Navigator.of(context).pushNamed('/toShowAutoPathPage', arguments: events).then((e){
                       eventPool= [];
