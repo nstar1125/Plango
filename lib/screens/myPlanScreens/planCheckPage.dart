@@ -84,7 +84,6 @@ class _PlanCheckPageState extends State<PlanCheckPage> {
           ),
         ],
       ),
-      backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Stack(

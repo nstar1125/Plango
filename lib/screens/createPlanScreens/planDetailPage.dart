@@ -121,7 +121,6 @@ class _PlanDetailPageState extends State<PlanDetailPage> {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
-        backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
         floatingActionButton: FloatingActionButton(
           onPressed: () {

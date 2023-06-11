@@ -31,20 +31,9 @@ class _ShowPlacesPageState extends State<ShowPlacesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 1,
-        iconTheme: IconThemeData(
-          color: Colors.black87,
-        ),
-        title: Text("Search Result",
-          style: TextStyle(
-              color: Colors.black87,
-              fontFamily: "GmarketSansTTF",
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-          ),),
+        elevation: 0,
+        title: Text("검색 결과"),
         centerTitle: true,
-        backgroundColor: Colors.white,
-
       ),
       body: StreamBuilder(
         stream: collectionRef.orderBy("like", descending: true).snapshots(),

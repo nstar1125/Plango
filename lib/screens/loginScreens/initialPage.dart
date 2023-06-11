@@ -16,6 +16,33 @@ class _InitialPageState extends State<InitialPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              "플랜고",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 40
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Container(
+              width: 200,
+              height: 200,
+              child: Image.asset("assets/images/app_main.png"),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Text(
+              "배리어 없는 여행을 꿈꾸다",
+              style: TextStyle(
+                  fontSize: 24
+              ),
+            ),
+            SizedBox(
+              height: 120,
+            ),
             Container(
               decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
