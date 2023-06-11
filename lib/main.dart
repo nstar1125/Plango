@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:plango/screens/createPlanScreens/placeDetailPage.dart';
 import 'package:plango/screens/createPlanScreens/planDetailPage.dart';
 import 'package:plango/screens/createPlanScreens/preferencePage.dart';
+import 'package:plango/screens/createPlanScreens/showAutoPath.dart';
 import 'package:plango/screens/createPlanScreens/showPlacesPage.dart';
 import 'package:plango/screens/loginScreens/initialPage.dart';
 import 'package:plango/screens/loginScreens/makeUserPage.dart';
@@ -107,6 +108,7 @@ class MyApp extends StatelessWidget {
         '/toPlaceDetailPage' : (context) => const PlaceDetailPage(),
         '/toPlanDetailPage' : (context) => const PlanDetailPage(),
         '/toPlanCheckPage' : (context) => const PlanCheckPage(),
+        '/toShowAutoPathPage' : (context) => const ShowAutoPathPage(),
       }
     );
   }

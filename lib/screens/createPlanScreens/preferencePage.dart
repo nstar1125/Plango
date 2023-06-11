@@ -1,4 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:plango/utilities/autoPath.dart';
+import 'package:plango/utilities/event.dart';
+import 'package:geolocator/geolocator.dart';
 
 class PreferencePage extends StatefulWidget {
   const PreferencePage({Key? key}) : super(key: key);
@@ -8,6 +14,8 @@ class PreferencePage extends StatefulWidget {
 }
 
 class _PreferencePageState extends State<PreferencePage> {
+  final db = FirebaseFirestore.instance;
+
   int _count = 1;
   List<Image> disable_type_image = [
     Image.asset('assets/images/disabled.png'),
@@ -29,9 +37,9 @@ class _PreferencePageState extends State<PreferencePage> {
   List<String> pref_string = [
     "관광지",
     "문화시설",
-    "축제행사",
+    "축제공연행사",
     "여행코스",
-    "레저스포츠",
+    "레포츠",
     "숙박",
     "쇼핑",
     "음식점",
@@ -39,6 +47,10 @@ class _PreferencePageState extends State<PreferencePage> {
 
   List<Image> sel_type_image = [];
   List<String> sel_pref_string = [];
+
+  List<Event> events = [];
+  List<Event> eventPool = [];
+  late PlaceDetails locDetail;
 
   _buildDisableChoiceList() {
     List<Widget> choices = [];
@@ -101,8 +113,87 @@ class _PreferencePageState extends State<PreferencePage> {
     return choices;
   }
 
+  getEventPool() async{
+    //// event pool 생성 시작
+    QuerySnapshot querySnapshot = await db.collection("places").get();
+    List<Map<String, dynamic>> allData = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+
+    if(allData.isNotEmpty) {
+      for(int i = 0; i < allData.length; i++) {
+
+        double distanceInMeters = Geolocator.distanceBetween(locDetail.geometry!.location.lat, locDetail.geometry!.location.lng,
+            allData[i]["lat"], allData[i]["lng"]);
+
+        if(distanceInMeters < 1000){
+          Event tempEvent = Event.fromJson(initEvent);
+
+          tempEvent.setTitle(allData[i]['title']);
+          tempEvent.setLocation(allData[i]['location']);
+          tempEvent.setLatlng(allData[i]['lat'],allData[i]['lng']);
+          tempEvent.setPlaceId(allData[i]['placeId']);
+          tempEvent.setLike(allData[i]['like']);
+          tempEvent.setCategory(allData[i]['category']);
+
+          tempEvent.setParking(allData[i]['parking']);
+          tempEvent.setPublictransport(allData[i]['publictransport']);
+          tempEvent.setWheelchair(allData[i]['wheelchair']);
+          tempEvent.setExit(allData[i]['exit']);
+          tempEvent.setElevator(allData[i]['elevator']);
+
+          tempEvent.setRestroom(allData[i]['restroom']);
+          tempEvent.setAuditorium(allData[i]['auditorium']);
+          tempEvent.setHandicapetc(allData[i]['handicapetc']);
+          tempEvent.setAudioguide(allData[i]['audioguide']);
+          tempEvent.setBraileblock(allData[i]['braileblock']);
+
+          tempEvent.setGuidehuman(allData[i]['guidehuman']);
+          tempEvent.setHelpdog(allData[i]['helpdog']);
+          tempEvent.setBrailepromotion(allData[i]['brailepromotion']);
+          tempEvent.setHearingroom(allData[i]['hearingroom']);
+          tempEvent.setStroller(allData[i]['stroller']);
+
+          tempEvent.setLactationroom(allData[i]['lactationroom']);
+          tempEvent.setBabysparechair(allData[i]['babysparechair']);
+          tempEvent.setInfantsfamilyetc(allData[i]['infantsfamilyetc']);
+          tempEvent.setImage(allData[i]['image']);
+
+          eventPool.add(tempEvent);
+
+
+        }
+      }
+    }
+    //// 1km 내의 event pool 생성 끝
+    // event pool test
+  }
+  showAlertMsg(){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: const Text("생성된 일정이 없습니다. 다른 지역을 선택해주세요."),
+            actions: [
+              CupertinoButton(
+                child: const Text("확인"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
+  @override
+  void initState() {
+    super.initState();
+    getEventPool();
+  }
+
   @override
   Widget build(BuildContext context) {
+    locDetail = ModalRoute.of(context)!.settings.arguments as PlaceDetails;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black87),
@@ -176,7 +267,24 @@ class _PreferencePageState extends State<PreferencePage> {
             ),
             SizedBox(height: 30),
             ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () async{
+                  print(eventPool.length);
+                  if(eventPool.length>0){
+                    print("Pool : "+(eventPool.length).toString());
+                    print(sel_pref_string);
+                    AutoPath auto = new AutoPath(eventPool, sel_pref_string);
+                    events = await auto.makePath(_count);
+                    await Navigator.of(context).pushNamed('/toShowAutoPathPage', arguments: events).then((e){
+                      eventPool= [];
+                      getEventPool();
+                      print("Pool end : "+(eventPool.length).toString());
+                      events.clear();
+                    });
+                  }else{
+                    showAlertMsg();
+                  }
+                  events.clear();
+                },
                 icon: Icon(Icons.settings_sharp),
                 label: Text("일정 자동 생성"),
             )

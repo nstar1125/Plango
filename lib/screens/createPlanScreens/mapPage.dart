@@ -135,15 +135,11 @@ class _MapPageState extends State<MapPage> {
                           points.remove(coordinate);
                           markers.removeWhere((marker) => marker.markerId.value == (points.indexOf(coordinate)+1).toString());
                           events.removeWhere((event) => LatLng(event.getLat(), event.getLng()) == coordinate);
-
                           markerId = 1;
                           for(int i = 0; i < points.length; i++){
                             await addMarker(points[i]);
                           }
-
-
                           setState(() {});
-
                           Navigator.of(context).pop();
                         },
                       ),
@@ -237,7 +233,7 @@ class _MapPageState extends State<MapPage> {
                           child: Text("경로 추천"),
                           onPressed: (){
                             if(hasSearched) {
-                              Navigator.pushNamed(context, "/toPreferencePage");
+                              Navigator.pushNamed(context, "/toPreferencePage", arguments: detail.result);
                             }
                           },
                       ),
